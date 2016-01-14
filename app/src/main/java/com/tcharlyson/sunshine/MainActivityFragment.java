@@ -83,7 +83,7 @@ public class MainActivityFragment extends Fragment {
         if(id == R.id.action_refresh)
         {
             FetchWeatherTask test = new FetchWeatherTask();
-            test.execute();
+            test.execute("Bordeaux");
             return true;
         }
 

@@ -43,10 +43,10 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
                     .appendQueryParameter(APP_ID,BuildConfig.OPEN_WEATHER_MAP_API_KEY)
                     .build();
 
-            String baseUrl = "http://api.openweathermap.org/data/2.5/forecast/weather?q=Bordeaux&mode=json&units=metric&cnt=7";
-            String apiKey = "&APPID=" + BuildConfig.OPEN_WEATHER_MAP_API_KEY;
-            URL url = new URL(baseUrl.concat(apiKey));
+            URL url = new URL(builtUri.toString());
+            Log.v(LOG_TAG, "built uri " + builtUri.toString());
 
+            //Create the request to OpenWeatherMap and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
