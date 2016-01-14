@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,12 +30,12 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
         String forecastJson = null;
 
         try {
-            final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/weather?";
+            final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily";
             final String QUERY_PARAMS = "q";
             final String FORMAT_PARAM = "mode";
             final String UNITS_PARAM = "units";
             final String DAYS_PARAM = "cnt";
-            final String APP_ID = "&APPID";
+            final String APP_ID = "APPID";
 
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAMS, params[0])
@@ -68,9 +70,12 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
             }
             forecastJson = buffer.toString();
             Log.e("Receive Data", forecastJson);
+            Log.e("Parsed Data", Double.toString(WeatherDataParser.getMaxTemperatureForDay(forecastJson, 0)));
 
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error", e);
+        } catch (JSONException e) {
+            e.printStackTrace();
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
