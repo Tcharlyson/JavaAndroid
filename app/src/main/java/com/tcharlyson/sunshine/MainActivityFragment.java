@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class MainActivityFragment extends Fragment {
 
-    public ArrayAdapter<String> mForecastAdapter;
+    private ArrayAdapter<String> mForecastAdapter;
 
     public MainActivityFragment() {
     }
