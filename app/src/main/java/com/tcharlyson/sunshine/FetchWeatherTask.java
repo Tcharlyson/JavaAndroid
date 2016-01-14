@@ -3,6 +3,7 @@ package com.tcharlyson.sunshine;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import org.json.JSONException;
 
@@ -16,11 +17,14 @@ import java.net.URL;
 /**
  * Created by tcharlysonplatel on 06/01/2016.
  */
-public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
+public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
     final String LOG_TAG = this.getClass().getSimpleName();
-    public FetchWeatherTask(){}
+    private ArrayAdapter<String> mAdapter;
+    public FetchWeatherTask(ArrayAdapter<String> adapter){
+        mAdapter = adapter;
+    }
     @Override
-    protected Void doInBackground(String... params) {
+    protected String[] doInBackground(String... params) {
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
@@ -89,6 +93,25 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
                 }
             }
         }
+        WeatherDataParser parser = new WeatherDataParser();
+        try {
+            return parser.getWeatherDataFromJson(forecastJson, numDays);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return null;
+    }
+    @Override
+    protected void onPostExecute(String[] results) {
+        if(results != null)
+        {
+            mAdapter.clear();
+
+            for (int i=0; i < results.length; i++)
+            for (String dayForecastString : results)
+            {
+                mAdapter.add(dayForecastString);
+            }
+        }
     }
 }

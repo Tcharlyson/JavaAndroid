@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class MainActivityFragment extends Fragment {
 
-    private ArrayAdapter<String> mForecastAdapter;
+    public ArrayAdapter<String> mForecastAdapter;
 
     public MainActivityFragment() {
     }
@@ -82,7 +82,7 @@ public class MainActivityFragment extends Fragment {
 
         if(id == R.id.action_refresh)
         {
-            FetchWeatherTask test = new FetchWeatherTask();
+            FetchWeatherTask test = new FetchWeatherTask(mForecastAdapter);
             test.execute("Bordeaux");
             return true;
         }
